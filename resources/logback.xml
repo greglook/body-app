@@ -20,9 +20,9 @@
   </appender>
 
   <root level="INFO">
-    <appender-ref ref="${HTR_LOG_APPENDER:-stdout}"/>
+    <appender-ref ref="${BODY_LOG_APPENDER:-stdout}"/>
   </root>
 
-  <logger name="mvxcvi.health-tracker" level="${HTR_LOG_LEVEL:-INFO}"/>
+  <logger name="mvxcvi.body" level="${BODY_LOG_LEVEL:-INFO}"/>
   <logger name="org.eclipse.jetty" level="INFO"/>
 </configuration>

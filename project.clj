@@ -1,4 +1,4 @@
-(defproject mvxcvi/health-tracker "0.1.0-SNAPSHOT"
+(defproject mvxcvi/body-app "0.1.0-SNAPSHOT"
   :description "A health tracking and planning webapp."
   :url "https://github.com/greglook/health-tracker"
   :license {:name "Public Domain"
@@ -18,6 +18,8 @@
    [ring/ring-jetty-adapter "1.3.2"]
    [ring-middleware-format "0.4.0"]]
 
-  :profiles {:repl [{:source-paths ["dev"]
-                     :dependencies [[org.clojure/tools.namespace "0.2.8"]]}
-                    :local]})
+  :profiles {:repl {:source-paths ["dev"]
+                    :dependencies [[org.clojure/tools.namespace "0.2.8"]]
+                    :jvm-opts ["-DBODY_LOG_APPENDER=repl"]}
+
+             :test {:jvm-opts ["-DBODY_LOG_APPENDER=nop"]}})
