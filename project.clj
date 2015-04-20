@@ -4,6 +4,9 @@
   :license {:name "Public Domain"
             :url "http://unlicense.org/"}
 
+  :plugins
+  [[lein-environ "1.0.0"]]
+
   :dependencies
   [[ch.qos.logback/logback-classic "1.1.2"]
    [clj-time "0.9.0"]
