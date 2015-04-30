@@ -5,7 +5,10 @@
   (:require
     [clojure.tools.logging :as log]
     [com.stuartsierra.component :as component]
-    [environ.core :refer [env]]))
+    [environ.core :refer [env]]
+    (mvxcvi.body.web
+      [app :as app]
+      [server :as server])))
 
 
 (def system nil)
@@ -20,9 +23,9 @@
       (let [port (Integer/parseInt (env :port "8080"))
             server-url (env :server-url (str "http://localhost:" port))]
         (component/system-map
-          #_ :web
-          #_
-          (server/->jetty-server
+          :web
+          (server/jetty-server
+            #'app/api-handler
             :server "0.0.0.0"
             :port port
             :min-threads 2
