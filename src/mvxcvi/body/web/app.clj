@@ -8,7 +8,9 @@
       [middleware :refer [api-middleware]]
       [routes :as routes]
       [swagger :as swagger])
-    [compojure.core :as compojure]
+    (compojure
+      [core :as compojure]
+      [route :as croute])
     [hiccup.core :as hiccup]
     [mvxcvi.body.web.middleware :refer :all]
     [mvxcvi.body.web.views.common :refer [index-page]]
@@ -55,8 +57,9 @@
   (compojure/routes
     (compojure/GET "/" []
       (render (index-page)))
-    (compojure/context "/api" []
-      (routes/api-root
+
+    (routes/api-root
+      (context* "/api" []
         (swagger/swagger-ui)
         (swagger/swagger-docs)
 
@@ -64,4 +67,6 @@
           :tags ["foo"]
 
           (GET* "/" []
-            {:foo :bar}))))))
+            {:foo :bar}))))
+
+    (croute/not-found "Not Found")))
