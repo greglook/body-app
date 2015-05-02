@@ -25,13 +25,15 @@
         (component/system-map
           :web
           (server/jetty-server
-            #'app/api-handler
+            (fn [controller]
+              (app/wrap-middleware
+                (app/api-handler controller)
+                (env :session-key)))
             :server "0.0.0.0"
             :port port
             :min-threads 2
             :max-threads 5
-            :max-queued 25
-            :session-key (env :session-key))))))
+            :max-queued 25)))))
   :init)
 
 

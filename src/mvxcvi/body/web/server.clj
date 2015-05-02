@@ -9,7 +9,7 @@
 
 
 (defrecord JettyServer
-  [handler-constructor controller session-key options ^Server server]
+  [handler-constructor controller options ^Server server]
 
   component/Lifecycle
 
@@ -43,5 +43,4 @@
   [constructor & {:as options}]
   (map->JettyServer
     {:handler-constructor constructor
-     :session-key (:session-key options)
-     :options (dissoc options :session-key)}))
+     :options options}))
