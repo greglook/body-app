@@ -8,7 +8,7 @@
       [middleware :refer [api-middleware]]
       [routes :as routes]
       [swagger :as swagger])
-    ;[compojure.core :as compojure :refer [ANY GET POST context]]
+    [compojure.core :as compojure]
     [hiccup.core :as hiccup]
     [mvxcvi.body.web.middleware :refer :all]
     [mvxcvi.body.web.views.common :refer [index-page]]
@@ -52,14 +52,16 @@
 (defn api-handler
   "Constructs a new Ring handler implementing the application."
   [controller]
-  (routes/api-root
-    (swagger/swagger-ui)
-    (swagger/swagger-docs)
-    (GET* "/" []
+  (compojure/routes
+    (compojure/GET "/" []
       (render (index-page)))
+    (compojure/context "/api" []
+      (routes/api-root
+        (swagger/swagger-ui)
+        (swagger/swagger-docs)
 
-    (context* "/api" []
-      :tags ["foo"]
+        (context* "/baz" []
+          :tags ["foo"]
 
-      (GET* "/" []
-        {:foo :bar}))))
+          (GET* "/" []
+            {:foo :bar}))))))

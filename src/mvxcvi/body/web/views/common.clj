@@ -34,8 +34,8 @@
      [:a.navbar-brand {:href "/"} "Body"]]
     [:div.navbar-collapse.collapse
      [:ul.nav.navbar-nav
-      [:li [:a {:href "/"} "Build History"]]
-      [:li [:a {:href ("trigger")} "New Build"]]]]]])
+      [:li [:a {:href "/food"} "Food"]]
+      [:li [:a {:href "/bar"} "New Diet"]]]]]])
 
 
 (defn- layout
@@ -56,7 +56,7 @@
 
 (defn index-page
   "Generate a hiccup document for the index page."
-  [queues recent-builds]
+  []
   (layout
     (head "Status")
     [:div.page-header
