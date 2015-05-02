@@ -29,7 +29,7 @@
             msg (format "%s %s %s -> %s (%d ms)"
                         remote-addr method uri status elapsed)]
         (log/log logger-ns
-                 (if (<= 400 status 599) :warn :info)
+                 (if (and (number? status) (<= 400 status 599)) :warn :info)
                  nil msg)
         response))))
 
