@@ -37,11 +37,7 @@
         (component/system-map
           :server
           (server/jetty-server
-            (fn [controller]
-              (app/wrap-middleware
-                (app/api-handler controller)
-                ; TODO: pass server url
-                ))
+            (comp app/wrap-middleware app/route-handler)
             :host interface
             :port port
             :min-threads 2

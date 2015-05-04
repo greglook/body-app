@@ -34,6 +34,19 @@
       (response/charset "utf-8")))
 
 
+; Don't forget routes can be separated out into other functions
+
+
+(defn route-handler
+  "Constructs a new Ring handler implementing the application."
+  [controller]
+  (compojure/routes
+    (GET "/" []
+      (render (index-page)))
+
+    (route/not-found "Not Found")))
+
+
 (defn wrap-middleware
   "Wraps the application handler in common stateless middleware."
   [handler]
@@ -50,13 +63,3 @@
       (wrap-cache-control #{"text/css" "text/javascript"})
       (wrap-not-modified)
       (wrap-x-forwarded-for)))
-
-
-(defn api-handler
-  "Constructs a new Ring handler implementing the application."
-  [controller]
-  (compojure/routes
-    (GET "/" []
-      (render (index-page)))
-
-    (route/not-found "Not Found")))
