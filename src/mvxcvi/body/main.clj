@@ -1,6 +1,17 @@
 (ns mvxcvi.body.main
   "Main entry-point for launching the application service. The system of
-  components is configured using environment variables."
+  components is configured using environment variables.
+
+  #### Environment Variables
+
+  `BIND_INTERFACE`
+  Network interface to bind the HTTP server to. Defaults to `\"localhost\"`.
+
+  `PORT`
+  TCP port the HTTP server will bind to. Defaults to `8080`.
+
+  `SERVER_URL`
+  Base server URL for links."
   (:gen-class)
   (:require
     [clojure.tools.logging :as log]
@@ -18,18 +29,20 @@
   "Initialize the system for standalone operation."
   []
   (log/info "Initializing main system from environment variables...")
-  (alter-var-root #'system
-    (constantly
-      (let [port (Integer/parseInt (env :port "8080"))
-            server-url (env :server-url (str "http://localhost:" port))]
+  (let [interface (env :bind-interface "localhost")
+        port (Integer/parseInt (env :port "8080"))
+        server-url (env :server-url (str "http://localhost:" port))]
+    (alter-var-root #'system
+      (constantly
         (component/system-map
-          :web
+          :server
           (server/jetty-server
             (fn [controller]
               (app/wrap-middleware
                 (app/api-handler controller)
-                (env :session-key)))
-            :server "0.0.0.0"
+                ; TODO: pass server url
+                ))
+            :server interface
             :port port
             :min-threads 2
             :max-threads 5

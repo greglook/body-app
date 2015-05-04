@@ -3,21 +3,18 @@
   controller actions."
   (:require
     [clojure.tools.logging :as log]
-    (compojure.api
-      [core :refer [ANY* GET* POST* context*]]
-      [middleware :refer [api-middleware]]
-      [routes :as routes]
-      [swagger :as swagger])
     (compojure
-      [core :as compojure]
-      [route :as croute])
+      [core :as compojure :refer [context GET PUT POST]]
+      [route :as route])
     [hiccup.core :as hiccup]
     [mvxcvi.body.web.middleware :refer :all]
     [mvxcvi.body.web.views.common :refer [index-page]]
     (ring.middleware
       [content-type :refer [wrap-content-type]]
       [format :refer [wrap-restful-format]]
+      [http-response :refer [wrap-http-response]]
       [keyword-params :refer [wrap-keyword-params]]
+      [nested-params :refer [wrap-nested-params]]
       [not-modified :refer [wrap-not-modified]]
       [params :refer [wrap-params]]
       [resource :refer [wrap-resource]]
@@ -39,10 +36,14 @@
 
 (defn wrap-middleware
   "Wraps the application handler in common stateless middleware."
-  [handler session-key]
+  [handler]
   (-> handler
-      (wrap-session {:store (cookie/cookie-store {:key session-key})})
-      (api-middleware)
+      (wrap-session {:store (cookie/cookie-store)})
+      (wrap-http-response)
+      (wrap-restful-format)
+      (wrap-keyword-params)
+      (wrap-nested-params)
+      (wrap-params)
       (wrap-request-logger 'mvxcvi.body.server)
       (wrap-resource "public")
       (wrap-content-type)
@@ -55,18 +56,7 @@
   "Constructs a new Ring handler implementing the application."
   [controller]
   (compojure/routes
-    (compojure/GET "/" []
+    (GET "/" []
       (render (index-page)))
 
-    (routes/api-root
-      (context* "/api" []
-        (swagger/swagger-ui)
-        (swagger/swagger-docs)
-
-        (context* "/baz" []
-          :tags ["foo"]
-
-          (GET* "/" []
-            {:foo :bar}))))
-
-    (croute/not-found "Not Found")))
+    (route/not-found "Not Found")))
