@@ -42,7 +42,7 @@
                 (app/api-handler controller)
                 ; TODO: pass server url
                 ))
-            :server interface
+            :host interface
             :port port
             :min-threads 2
             :max-threads 5

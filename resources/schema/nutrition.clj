@@ -39,13 +39,4 @@
   ; sodium?
   ; fiber?
 
-
-
-  ;; ## Nutrition Log
-
-  ; [person, date]
-  ; goal-min -> diet template min
-  ; goal-max -> diet template max
-  ; intake   -> recorded intake
-
 ]
