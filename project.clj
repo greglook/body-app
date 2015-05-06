@@ -18,6 +18,7 @@
    [metosin/ring-http-response "0.6.1"]
    [org.clojure/clojure "1.7.0-beta1"]
    [org.clojure/tools.logging "0.3.1"]
+   [prismatic/schema "0.4.2"]
    [ring/ring-core "1.3.2"]
    [ring/ring-jetty-adapter "1.3.2"]
    [ring-middleware-format "0.5.0"]]
