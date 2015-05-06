@@ -4,6 +4,8 @@
   :license {:name "Public Domain"
             :url "http://unlicense.org/"}
 
+  :source-paths ["src/clj"]
+
   :plugins
   [[lein-cljsbuild "1.0.5"]]
 
@@ -13,4 +15,7 @@
    [prismatic/schema "0.4.2"]]
 
   :cljsbuild
-  {:builds []})
+  {:builds [{:source-paths ["src/cljs"]
+             :compiler {:output-to "resources/public/js/site.js"
+                        :optimizations :whitespace
+                        :pretty-print true}}]})
