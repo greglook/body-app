@@ -1,6 +1,7 @@
 (ns user
   (:require
-    [clojure.java.io :as io]
+    [cljs.repl]
+    [cljs.repl.browser]
     [clojure.repl :refer :all]
     [clojure.string :as str]
     [compojure.core :as compojure]
@@ -12,6 +13,8 @@
       [not-modified :refer [wrap-not-modified]]
       [resource :refer [wrap-resource]])))
 
+
+;; ## HTTP Server
 
 (def server nil)
 
@@ -32,7 +35,7 @@
       (wrap-not-modified)))
 
 
-(defn start!
+(defn start-server!
   "Initializes and starts the system."
   []
   (if server
@@ -46,19 +49,31 @@
       (alter-var-root #'server
         (constantly
           (jetty/run-jetty static-handler server-opts)))))
-  :start)
+  :start-server)
 
 
-(defn stop!
+(defn stop-server!
   "Stops the server."
   []
   (when (and server (not (.isStopped server)))
     (println "Stopping server...")
     (.stop server))
-  :stop)
+  :stop-server)
 
+
+
+;; ## Browser REPL
+
+(defn start-browser-repl!
+  "Starts a clojurescript browser REPL session."
+  []
+  (cljs.repl/repl (cljs.repl.browser/repl-env :port 3004)))
+
+
+
+;; ## REPL Lifecycle
 
 (defn reload!
   []
-  (stop!)
+  (stop-server!)
   (require 'user :reload))
