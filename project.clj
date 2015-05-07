@@ -10,12 +10,17 @@
   [[lein-cljsbuild "1.0.5"]]
 
   :dependencies
-  [[org.clojure/clojure "1.7.0-beta1"]
+  [[compojure "1.3.3"]
+   [org.clojure/clojure "1.7.0-beta1"]
    [org.clojure/clojurescript "0.0-3211"]
-   [prismatic/schema "0.4.2"]]
+   [prismatic/schema "0.4.2"]
+   [ring/ring-core "1.3.2"]
+   [ring/ring-jetty-adapter "1.3.2"] ]
 
   :cljsbuild
   {:builds [{:source-paths ["src/cljs"]
              :compiler {:output-to "resources/public/js/main.js"
                         :optimizations :whitespace
-                        :pretty-print true}}]})
+                        :pretty-print true}}]}
+
+  :profiles {:repl {:source-paths ["dev"]}})
