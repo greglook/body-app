@@ -8,4 +8,3 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 /.cljs*
-/resources/public/js/main.js

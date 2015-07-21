@@ -21,23 +21,23 @@
   {:repl false}
 
   :cljsbuild
-  {:builds {:client {:source-paths ["src/cljs"]
+  {:builds {:app {:source-paths ["src/cljs"]
                      :compiler
                      {:output-dir "target/app"
                       :output-to "target/app.js"}}}}
 
   :profiles
   {:dev {:cljsbuild
-         {:builds {:client {:source-paths ["dev"]
+         {:builds {:app {:source-paths ["dev"]
                             :compiler
-                            {:main mvxcvi.body-app.dev
+                            {:main mvxcvi.body.dev
                              :optimizations :none
                              :source-map true
                              :source-map-timestamp true
                              :pretty-print true}}}}}
 
    :prod {:cljsbuild
-          {:builds {:client {:compiler
-                             {:optimizations :advanced
-                              :elide-asserts true
-                              :pretty-print false}}}}}})
+          {:builds {:app {:compiler
+                          {:optimizations :advanced
+                           :elide-asserts true
+                           :pretty-print false}}}}}})

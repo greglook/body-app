@@ -6,5 +6,5 @@
 (defn ^:export run
   []
   (reagent/render
-    ["Hello, Reagent!"]
+    [:p "Hello, Reagent!"]
     (js/document.getElementById "app")))
