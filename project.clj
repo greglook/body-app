@@ -7,20 +7,37 @@
   :source-paths ["src/clj"]
 
   :plugins
-  [[lein-cljsbuild "1.0.5"]]
+  [[lein-cljsbuild "1.0.6"]
+   [lein-figwheel "0.3.7"]]
 
   :dependencies
-  [[compojure "1.3.3"]
-   [org.clojure/clojure "1.7.0-beta1"]
-   [org.clojure/clojurescript "0.0-3211"]
-   [prismatic/schema "0.4.2"]
-   [ring/ring-core "1.3.2"]
-   [ring/ring-jetty-adapter "1.3.2"] ]
+  [[figwheel "0.3.7"]
+   [org.clojure/clojure "1.7.0"]
+   [org.clojure/clojurescript "0.0-3308"]
+   [prismatic/schema "0.4.3"]
+   [reagent "0.5.0"]]
+
+  :figwheel
+  {:repl false}
 
   :cljsbuild
-  {:builds [{:source-paths ["src/cljs"]
-             :compiler {:output-to "resources/public/js/main.js"
-                        :optimizations :whitespace
-                        :pretty-print true}}]}
+  {:builds {:client {:source-paths ["src/cljs"]
+                     :compiler
+                     {:output-dir "target/app"
+                      :output-to "target/app.js"}}}}
 
-  :profiles {:repl {:source-paths ["dev"]}})
+  :profiles
+  {:dev {:cljsbuild
+         {:builds {:client {:source-paths ["dev"]
+                            :compiler
+                            {:main mvxcvi.body-app.dev
+                             :optimizations :none
+                             :source-map true
+                             :source-map-timestamp true
+                             :pretty-print true}}}}}
+
+   :prod {:cljsbuild
+          {:builds {:client {:compiler
+                             {:optimizations :advanced
+                              :elide-asserts true
+                              :pretty-print false}}}}}})

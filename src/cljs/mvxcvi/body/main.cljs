@@ -1,7 +1,10 @@
 (ns mvxcvi.body.main
   (:require
-    [clojure.browser.repl :as repl]))
+    [reagent.core :as reagent :refer [atom]]))
 
-(repl/connect "http://localhost:3004/repl")
 
-(.write js/document "<p>Hello, world!</p>")
+(defn ^:export run
+  []
+  (reagent/render
+    ["Hello, Reagent!"]
+    (js/document.getElementById "app")))
